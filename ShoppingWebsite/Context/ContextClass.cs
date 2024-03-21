@@ -22,9 +22,9 @@ public partial class Context : DbContext
 
     public ModelBuilder HasCharSet(ModelBuilder modelBuilder)
     {
-        //modelBuilder
-        //    .UseCollation("utf8mb4_unicode_ci")
-        //    .HasCharSet("utf8mb4");
+        modelBuilder
+            .UseCollation("utf8mb4_unicode_ci")
+            .HasCharSet("utf8mb4");
 
         return modelBuilder;
 
@@ -42,8 +42,8 @@ public partial class Context : DbContext
                 .AddJsonFile("appsettings.json")
                 .Build();
 
-            //string connectionString = configuration.GetConnectionString("DefaultConnection");
-            //optionsBuilder.UseMySql(connectionString, ServerVersion.Parse("10.4.29-mariadb"));
+            string connectionString = configuration.GetConnectionString("DefaultConnection");
+            optionsBuilder.UseMySql(connectionString, ServerVersion.Parse("10.4.29-mariadb"));
         }
     }
 
