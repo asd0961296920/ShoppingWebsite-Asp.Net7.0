@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 25.0.1706.9
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingWebsite", "ShoppingWebsite\ShoppingWebsite.csproj", "{05D4E7A6-53E0-43BE-9292-76D8FF82E1E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API_template_Net7.0", "..\..\API_template_AspNetCore7.0\API_template_Net7.0\API_template_Net7.0.csproj", "{F9C26AE2-DB1C-4166-8A4A-2C901D1E3D4E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{05D4E7A6-53E0-43BE-9292-76D8FF82E1E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05D4E7A6-53E0-43BE-9292-76D8FF82E1E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05D4E7A6-53E0-43BE-9292-76D8FF82E1E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05D4E7A6-53E0-43BE-9292-76D8FF82E1E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9C26AE2-DB1C-4166-8A4A-2C901D1E3D4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9C26AE2-DB1C-4166-8A4A-2C901D1E3D4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9C26AE2-DB1C-4166-8A4A-2C901D1E3D4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9C26AE2-DB1C-4166-8A4A-2C901D1E3D4E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E210D56C-D347-4C8E-ACD9-F035AF806E56}
+	EndGlobalSection
+EndGlobal
