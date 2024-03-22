@@ -11,10 +11,14 @@
   <ItemGroup>
     <None Remove="Context\" />
     <None Remove="Models\" />
+    <None Remove="Views\Login\" />
+    <None Remove="Request\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Context\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\Login\" />
+    <Folder Include="Request\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.2" />

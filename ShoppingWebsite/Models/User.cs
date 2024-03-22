@@ -7,7 +7,7 @@ namespace Models
 
         public string? name { get; set; }
 
-        public int password { get; set; }
+        public string password { get; set; }
 
     }
 }
