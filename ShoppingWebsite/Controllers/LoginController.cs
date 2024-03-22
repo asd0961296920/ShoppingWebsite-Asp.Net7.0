@@ -36,12 +36,12 @@ public class LoginController : Controller
     {
 
         string name = Request.Form["name"];
-        var password = Request.Form["password"];
+        string password = Request.Form["password"];
         var md5 = this.ComputeMD5Hash(name + password);
+
         password = this.ComputeMD5Hash(password);
         User verify = _db.User.FirstOrDefault(u => u.name == name);
-        //Console.WriteLine("123");
-        //Console.WriteLine("123");
+        //TempData["password"] = password;
         if (verify != null && verify?.password == password)
         {
             //設置cookies
@@ -65,8 +65,7 @@ public class LoginController : Controller
         
     }
 
-
-
+    //使用md5，32位元小寫英文加密
     public string ComputeMD5Hash(string input)
     {
         using (MD5 md5 = MD5.Create())
@@ -83,7 +82,7 @@ public class LoginController : Controller
             {
                 sb.Append(hashBytes[i].ToString("x2")); // "x2" 表示使用小寫字母表示每個位元組的十六進制值
             }
-            return sb.ToString();
+            return sb.ToString(); // 將 StringBuilder 轉換為字串
         }
     }
 }
