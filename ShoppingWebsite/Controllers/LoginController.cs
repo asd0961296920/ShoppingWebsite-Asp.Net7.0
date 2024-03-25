@@ -52,11 +52,11 @@ public class LoginController : Controller
 
         password = this.ComputeMD5Hash(password);
         User verify = _db.User.FirstOrDefault(u => u.name == name);
-        //TempData["password"] = password;
+
         if (verify != null && verify?.password == password)
         {
             //設置cookies
-            HttpContext.Response.Cookies.Append("UserVerify", md5, new CookieOptions
+            HttpContext.Response.Cookies.Append("UserVerify", verify.Id.ToString(), new CookieOptions
             {
                 Expires = DateTime.UtcNow.AddDays(7),
                 HttpOnly = true,
