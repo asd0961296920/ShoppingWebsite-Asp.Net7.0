@@ -13,12 +13,16 @@
     <None Remove="Models\" />
     <None Remove="Views\Login\" />
     <None Remove="Request\" />
+    <None Remove="Views\Shared\Components\" />
+    <None Remove="Views\Shoping\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Context\" />
     <Folder Include="Models\" />
     <Folder Include="Views\Login\" />
     <Folder Include="Request\" />
+    <Folder Include="Views\Shared\Components\" />
+    <Folder Include="Views\Shoping\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.2" />

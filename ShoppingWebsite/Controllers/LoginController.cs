@@ -26,6 +26,15 @@ public class LoginController : Controller
     public IActionResult UserLogin()
     {
 
+        // 获取名为"CookieName"的Cookie的值
+        string cookieValue = Request.Cookies["UserVerify"];
+
+        // 如果Cookie存在
+        if (cookieValue != null)
+        {
+            return RedirectToAction("Index", "Home");
+        }
+
 
         ViewBag.ProductClass = _db.ProductClass.ToList();
         return View();
@@ -34,6 +43,8 @@ public class LoginController : Controller
     [HttpPost]
     public IActionResult UserLoginVerify()
     {
+
+
 
         string name = Request.Form["name"];
         string password = Request.Form["password"];
@@ -46,6 +57,14 @@ public class LoginController : Controller
         {
             //設置cookies
             HttpContext.Response.Cookies.Append("UserVerify", md5, new CookieOptions
+            {
+                Expires = DateTime.UtcNow.AddDays(7),
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict
+            });
+            //設置cookies
+            HttpContext.Response.Cookies.Append("UserName", name, new CookieOptions
             {
                 Expires = DateTime.UtcNow.AddDays(7),
                 HttpOnly = true,
@@ -85,6 +104,15 @@ public class LoginController : Controller
             return sb.ToString(); // 將 StringBuilder 轉換為字串
         }
     }
+
+    public IActionResult OutLogin()
+    {
+        Response.Cookies.Delete("UserVerify");
+        Response.Cookies.Delete("UserName");
+
+        return RedirectToAction("Index", "Home");
+    }
+
 }
 
 

@@ -21,7 +21,6 @@ public class HomeController : Controller
     }
     public IActionResult Index()
     {
-        ViewBag.ProductClass = _db.ProductClass.ToList();
 
         ViewBag.Product = _db.Product.ToList();
 
@@ -30,7 +29,7 @@ public class HomeController : Controller
 
     public IActionResult ProductClass(int id)
     {
-        ViewBag.ProductClass = _db.ProductClass.ToList();
+
         ViewBag.Product = _db.Product.Where(x => x.product_class_id == id).ToList();
 
         return View();
@@ -38,7 +37,6 @@ public class HomeController : Controller
 
     public IActionResult Privacy()
     {
-        ViewBag.ProductClass = _db.ProductClass.ToList();
         return View();
     }
 
