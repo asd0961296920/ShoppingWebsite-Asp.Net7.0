@@ -11,11 +11,11 @@
             @foreach (var item in ViewBag.Product)
             {
                 <div class="card" style="width: 18rem;">
-                    <img src="..." class="card-img-top" alt="...">
+                    <img src="@item.imager" class="card-img-top" >
                     <div class="card-body">
                         <h5 class="card-title">@item.name</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-primary">查看產品</a>
+                        <p class="card-text">@item.remarks</p>
+                        <a href="/Product/Index/@item.Id" class="btn btn-primary">查看產品</a>
                     </div>
                 </div>
 

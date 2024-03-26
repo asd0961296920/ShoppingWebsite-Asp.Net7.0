@@ -15,8 +15,8 @@ namespace Models
         public int manufacturer_id { get; set; }
 
         public int product_id { get; set; }
-        
 
+        public int number { get; set; }
     }
 }
 

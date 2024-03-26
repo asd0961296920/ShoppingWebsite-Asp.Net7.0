@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Models;
 using Server;
 using TextContext;
@@ -43,6 +44,58 @@ public class ShopingController : Controller
     }
 
 
+    //產品購買
+    [HttpPost]
+    public IActionResult Shoping()
+    {
+
+        // 获取名为"CookieName"的Cookie的值
+        string cookieValue = Request.Cookies["UserVerify"];
+
+        // 如果Cookie不存在
+        if (cookieValue == null)
+        {
+            TempData["shopping"] = true;
+
+            TempData["shopping_text"] = "請先登入";
+            TempData["shopping_body"] = "登入後才可購買";
+            return RedirectToAction("UserLogin", "Login");
+        }
+
+        
+
+
+
+
+        int user_id = int.Parse(Request.Cookies["UserVerify"]);
+        int manufacturer_id = int.Parse(Request.Form["manufacturer_id"]);
+        int number = int.Parse(Request.Form["number"]);
+        int product_id = int.Parse(Request.Form["product_id"]);
+
+        var shop = new Shop
+        {
+            user_id = user_id,
+            manufacturer_id = manufacturer_id,
+            product_id = product_id,
+            number = number
+        };
+
+        _db.Shop.Add(shop);
+        _db.SaveChanges();
+
+
+
+
+        TempData["shopping_bool"] = true;
+        TempData["shopping_text"] = "購買成功";
+        TempData["shopping_body"] = "購買商品可以在購物車看見";
+        return RedirectToAction("succ", "Product");
+
+
+    }
+
+
+
     [HttpPost]
     public async Task<IActionResult> Checkout()
     {
@@ -52,12 +105,12 @@ public class ShopingController : Controller
         string ItemName = "shoppingprint";
         DateTime now = DateTime.Now;
         string formattedDateTime = now.ToString("yyyy/MM/dd HH:mm:ss");
-        string MerchantTradeNo = "elim123123123";
+        string MerchantTradeNo = "elim1231231233";
         string TradeDesc = "shopping";
         
         int TotalAmount = 100;
 
-        string input = "HashKey="+ appSettings["HashKey"] + "&ChoosePayment=ALL&EncryptType=1&ItemName="+ ItemName +"&MerchantID="+ appSettings["MerchantID"] + "&MerchantTradeDate="+ formattedDateTime + "&MerchantTradeNo="+ MerchantTradeNo + "&PaymentType=aio&ReturnURL="+ appSettings["ReturnURL"]+ "&TotalAmount="+ TotalAmount+ "&TradeDesc=" + TradeDesc + "&HashIV=" + appSettings["HashIV"];
+        string input = "HashKey="+ appSettings["HashKey"] + "&ChoosePayment=Credit&EncryptType=1&ItemName=" + ItemName +"&MerchantID="+ appSettings["MerchantID"] + "&MerchantTradeDate="+ formattedDateTime + "&MerchantTradeNo="+ MerchantTradeNo + "&PaymentType=aio&ReturnURL="+ appSettings["ReturnURL"]+ "&TotalAmount="+ TotalAmount+ "&TradeDesc=" + TradeDesc + "&HashIV=" + appSettings["HashIV"];
 
         //Console.WriteLine(input);
 
@@ -66,7 +119,7 @@ public class ShopingController : Controller
         var jsonData = new
         {
             CheckMacValue = input,
-            ChoosePayment = "ALL",
+            ChoosePayment = "Credit",
             EncryptType = 1,
             MerchantID = appSettings["MerchantID"],
             MerchantTradeDate = formattedDateTime,
@@ -108,7 +161,9 @@ public class ShopingController : Controller
         {
             // 处理成功的情况
             var htmlContent = await response.Content.ReadAsStringAsync();
-            return Content(htmlContent, "text/html");
+            return View("Checkout", htmlContent);
+            //return Content(htmlContent, "text/html");
+
         }
         else
         {

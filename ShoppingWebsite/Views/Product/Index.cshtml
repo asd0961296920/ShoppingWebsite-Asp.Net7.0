@@ -1,0 +1,91 @@
+﻿@{
+    ViewData["Title"] = "Product";
+}
+@using Models
+
+@section Scripts {
+
+
+    <script>
+        document.getElementById('minusBtn').addEventListener('click', function () {
+            var input = document.getElementById('number');
+            var value = parseInt(input.value) - 1;
+            input.value = value >= 1 ? value : 1;
+        });
+
+        document.getElementById('plusBtn').addEventListener('click', function () {
+            var input = document.getElementById('number');
+            var value = parseInt(input.value) + 1;
+            input.value = value <= @ViewBag.ProductFind.number ? value : @ViewBag.ProductFind.number;
+        });
+
+
+        </script>
+    }
+
+
+
+
+
+
+
+
+
+    <div class="container">
+        <div class="row">
+
+            <div class="col">
+
+                <p class="h2">@ViewBag.ProductFind.name</p>
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+
+                            <img src="@ViewBag.ProductFind.imager" class="rounded">
+
+                        </div>
+                        <div class="col">
+                            <p>@ViewBag.ProductFind.remarks</p>
+
+
+
+
+                            <form action="/Shoping/Shoping" method="post">
+                                <input type="number" id="product_id" name="product_id" class="d-none" value=@ViewBag.ProductFind.Id>
+                                <input type="number" id="manufacturer_id" name="manufacturer_id" class="d-none" value=@ViewBag.ProductFind.manufacturer_id>
+
+
+                                <div class="input-group">
+                                    <button class="btn btn-outline-secondary" type="button" id="minusBtn">-</button>
+                                    <input type="text" class="form-control" id="number" name="number" value="1">
+                                    <button class="btn btn-outline-secondary" type="button" id="plusBtn">+</button>
+                                </div>
+
+
+                                <button type="submit" id="buy" class="btn btn-outline-success">購買</button>
+                            </form>
+
+
+
+
+
+
+
+
+
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+

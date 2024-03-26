@@ -19,15 +19,21 @@ public class ProductController : Controller
         _db = dbContext;
 
     }
-    public IActionResult Index()
+    public IActionResult Index(int id)
     {
 
-     
+        ViewBag.ProductFind = _db.Product.Find(id);
 
         return View();
     }
 
+    public IActionResult succ()
+    {
 
+
+        return View();
+
+    }
 
 }
 
