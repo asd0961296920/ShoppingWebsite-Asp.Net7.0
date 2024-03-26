@@ -5,12 +5,61 @@
 
 
 <div class="container">
+
     <div class="row">
         <div class="col">
 
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">商品名稱</th>
+                        <th scope="col">商品數量</th>
+                        <th scope="col">商品單價</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.Shop)
+                    {
+                        <tr>
+                            <td></td>
+                            <td>item.number</td>
+                            <td>mdo</td>
+                        </tr>
 
-            @ViewBag.Producttttt
+                    }
+
+                </tbody>
+            </table>
+
+
+
+        </div>
+        <div class="col">
+
+
+
+
             <form action="/Shoping/Checkout" method="post">
+
+                <div class="row mb-3">
+                    <label for="colFormLabel" class="col-sm-2 col-form-label">寄送地址：</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="adress" name="adress" placeholder="請輸入地址">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="colFormLabel" class="col-sm-2 col-form-label">聯絡電話：</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="phone" name="phone" placeholder="請輸入聯絡電話">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="colFormLabel" class="col-sm-2 col-form-label">寄送姓名：</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="name" name="name" placeholder="請輸入姓名">
+                    </div>
+                </div>
+                <p>總價：</p>
 
                 <div class="d-grid gap-2 col-6 mx-auto">
                     <button class="btn btn-outline-primary" type="submit">結帳</button>

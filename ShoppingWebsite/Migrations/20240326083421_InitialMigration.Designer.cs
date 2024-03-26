@@ -11,7 +11,7 @@ using TextContext;
 namespace ShoppingWebsite.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20240326030456_InitialMigration")]
+    [Migration("20240326083421_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />

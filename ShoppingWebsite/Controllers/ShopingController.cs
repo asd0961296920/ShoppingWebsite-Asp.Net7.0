@@ -36,8 +36,19 @@ public class ShopingController : Controller
     public IActionResult Index()
     {
         string cookieValue = Request.Cookies["UserVerify"];
+        int userId = int.Parse(cookieValue);
+        //ViewBag.Shop = _db.Shop.Where(u => u.user_id == int.Parse(cookieValue)).ToList();
 
-        ViewBag.Shop = _db.User.Where(u => u.Id == int.Parse(cookieValue)).ToList();
+        var shopData = (from shop in _db.Shop
+                        where shop.user_id == userId
+                        join product in _db.Product
+                        on shop.product_id equals product.Id
+                        select new
+                        {
+                            Shop = shop,
+                            Product = product
+                        }).ToList();
+        ViewBag.Shop = shopData;
 
         return View();
 
@@ -71,6 +82,8 @@ public class ShopingController : Controller
         int manufacturer_id = int.Parse(Request.Form["manufacturer_id"]);
         int number = int.Parse(Request.Form["number"]);
         int product_id = int.Parse(Request.Form["product_id"]);
+
+
 
         var shop = new Shop
         {

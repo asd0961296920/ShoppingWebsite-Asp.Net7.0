@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ShoppingWebsite.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -47,7 +47,8 @@ namespace ShoppingWebsite.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     name = table.Column<string>(type: "longtext", nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    password = table.Column<int>(type: "int", nullable: false)
+                    password = table.Column<string>(type: "longtext", nullable: false, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -132,7 +133,8 @@ namespace ShoppingWebsite.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     userid = table.Column<int>(name: "user_id", type: "int", nullable: false),
                     manufacturerid = table.Column<int>(name: "manufacturer_id", type: "int", nullable: false),
-                    productid = table.Column<int>(name: "product_id", type: "int", nullable: false)
+                    productid = table.Column<int>(name: "product_id", type: "int", nullable: false),
+                    number = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -149,7 +151,8 @@ namespace ShoppingWebsite.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     name = table.Column<string>(type: "longtext", nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    password = table.Column<int>(type: "int", nullable: false)
+                    password = table.Column<string>(type: "longtext", nullable: false, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
