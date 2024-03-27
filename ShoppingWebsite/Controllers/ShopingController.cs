@@ -37,18 +37,31 @@ public class ShopingController : Controller
     {
         string cookieValue = Request.Cookies["UserVerify"];
         int userId = int.Parse(cookieValue);
-        //ViewBag.Shop = _db.Shop.Where(u => u.user_id == int.Parse(cookieValue)).ToList();
+        ViewBag.Shop = _db.Shop.Where(u => u.user_id == int.Parse(cookieValue)).ToList();
 
-        var shopData = (from shop in _db.Shop
-                        where shop.user_id == userId
-                        join product in _db.Product
-                        on shop.product_id equals product.Id
-                        select new
-                        {
-                            Shop = shop,
-                            Product = product
-                        }).ToList();
-        ViewBag.Shop = shopData;
+        var newArray = new List<object>();
+        foreach (var item in ViewBag.Shop)
+        {
+            var product = _db.Product.Find(item.product_id);
+
+
+            // 從每個資料庫物件中提取資料並重新組成新的物件
+            var newItem = new { number = item?.number, price = product?.price , name = product?.name, };
+
+            // 將新的物件加入新的陣列中
+            newArray.Add(newItem);
+        }
+
+        ViewBag.Shop = newArray;
+
+        //ViewBag.Shop = _db.Shop
+        //    .Where(s => s.user_id == userId)
+        //    .Join(_db.Product,
+        //        shop => shop.product_id,
+        //        product => product.Id,
+        //        (shop, product) => new { Shop = shop, Product = product })
+        //    .ToList();
+        //ViewBag.Shop = shopData;
 
         return View();
 
