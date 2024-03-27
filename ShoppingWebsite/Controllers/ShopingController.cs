@@ -37,22 +37,24 @@ public class ShopingController : Controller
     {
         string cookieValue = Request.Cookies["UserVerify"];
         int userId = int.Parse(cookieValue);
+        int all_number = 0;
         ViewBag.Shop = _db.Shop.Where(u => u.user_id == int.Parse(cookieValue)).ToList();
 
         var newArray = new List<object>();
         foreach (var item in ViewBag.Shop)
         {
             var product = _db.Product.Find(item.product_id);
-
+            all_number += item?.number * product?.price;
 
             // 從每個資料庫物件中提取資料並重新組成新的物件
-            var newItem = new { number = item?.number, price = product?.price , name = product?.name, };
+            var newItem = new { number = item?.number, price = product?.price , name = product?.name,shop_id = item?.Id };
 
             // 將新的物件加入新的陣列中
             newArray.Add(newItem);
         }
 
         ViewBag.Shop = newArray;
+        ViewBag.all_number = all_number;
 
         //ViewBag.Shop = _db.Shop
         //    .Where(s => s.user_id == userId)
@@ -125,16 +127,69 @@ public class ShopingController : Controller
     [HttpPost]
     public async Task<IActionResult> Checkout()
     {
-        //Task<IActionResult>
+        // 獲取當前時間
+        DateTime currentTime = DateTime.Now;
+
+        // 將時間轉換為數字格式（例如 Unix 時間戳）
+        long numericTime = ((DateTimeOffset)currentTime).ToUnixTimeSeconds();
+
+        //內部產生訂單
+        var order = new Order
+        {
+            order_number ="0000"+ Request.Cookies["UserVerify"] + Request.Form["all_number"]+ numericTime,
+            adress = Request.Form["adress"],
+            phone = Request.Form["phone"],
+            price = int.Parse(Request.Form["all_number"]),
+            user_id = int.Parse(Request.Cookies["UserVerify"]),
+            manufacturer_id = 0,
+            payment = false
+        };
+
+        _db.Order.Add(order);
+        _db.SaveChanges();
+
+
+        //訂單下的詳細物件
+        var shop = _db.Shop.Where(u => u.user_id == int.Parse(Request.Cookies["UserVerify"])).ToList();
+        foreach (var item in shop)
+        {
+            var product = _db.Product.Find(item.product_id);
+            int product_number = product.price * item.number;
+            var items = new Item
+            {
+                order_id = order.order_number,
+                product_id = item.product_id,
+                product_name = product.name,
+                price = product_number,
+                user_id = int.Parse(Request.Cookies["UserVerify"]),
+                manufacturer_id = product.manufacturer_id
+            };
+
+            _db.Item.Add(items);
+            _db.SaveChanges();
+        }
+
+
+        //訂單記錄完成之後刪除購物車
+        var Shoping = _db.Shop.Where(u => u.user_id == int.Parse(Request.Cookies["UserVerify"])).ToList();
+        _db.Shop.RemoveRange(Shoping); // 或者使用 _db.RemoveRange(Shoping);
+        _db.SaveChanges();
+
+
+
+
+
+
+        //連接綠界金流
         var appSettings = Configuration.GetSection("ECPay");
 
-        string ItemName = "shoppingprint";
+        string ItemName = "shopping";
         DateTime now = DateTime.Now;
         string formattedDateTime = now.ToString("yyyy/MM/dd HH:mm:ss");
-        string MerchantTradeNo = "elim1231231233";
+        string MerchantTradeNo = order.order_number;
         string TradeDesc = "shopping";
         
-        int TotalAmount = 100;
+        int TotalAmount = order.price;
 
         string input = "HashKey="+ appSettings["HashKey"] + "&ChoosePayment=Credit&EncryptType=1&ItemName=" + ItemName +"&MerchantID="+ appSettings["MerchantID"] + "&MerchantTradeDate="+ formattedDateTime + "&MerchantTradeNo="+ MerchantTradeNo + "&PaymentType=aio&ReturnURL="+ appSettings["ReturnURL"]+ "&TotalAmount="+ TotalAmount+ "&TradeDesc=" + TradeDesc + "&HashIV=" + appSettings["HashIV"];
 
@@ -200,6 +255,17 @@ public class ShopingController : Controller
 
 
 
+    }
+
+
+    public IActionResult Delete(int id)
+    {
+
+        var shop = _db.Shop.Find(id);
+        _db.Shop.Remove(shop);
+        _db.SaveChanges();
+
+        return RedirectToAction("Index", "Shoping");
     }
 
 

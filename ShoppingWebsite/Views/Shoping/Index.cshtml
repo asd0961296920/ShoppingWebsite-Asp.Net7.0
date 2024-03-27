@@ -24,6 +24,7 @@
                             <td>@item.name</td>
                             <td>@item.number</td>
                             <td>@item.price</td>
+                            <td><a class="btn btn-outline-primary" href="/Shoping/Delete/@item.shop_id" type="button">刪除</a></td>
                         </tr>
 
                     }
@@ -59,7 +60,8 @@
                         <input type="text" class="form-control" id="name" name="name" placeholder="請輸入姓名">
                     </div>
                 </div>
-                <p>總價：</p>
+                <input type="number" id="all_number" name="all_number" class="d-none" value=@ViewBag.all_number>
+                <p>總價：@ViewBag.all_number</p>
 
                 <div class="d-grid gap-2 col-6 mx-auto">
                     <button class="btn btn-outline-primary" type="submit">結帳</button>

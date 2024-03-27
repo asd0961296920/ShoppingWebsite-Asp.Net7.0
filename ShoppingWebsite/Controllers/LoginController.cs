@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using Models;
 using Request;
 using TextContext;
@@ -40,7 +41,57 @@ public class LoginController : Controller
         return View();
     }
 
+    public IActionResult Register()
+    {
+
+        // 获取名为"CookieName"的Cookie的值
+        string cookieValue = Request.Cookies["UserVerify"];
+
+        // 如果Cookie存在
+        if (cookieValue != null)
+        {
+            return RedirectToAction("Index", "Home");
+        }
+
+        return View();
+    }
+
+
     [HttpPost]
+    public IActionResult RegisterPost()
+    {
+
+        string inputname = Request.Form["name"];
+        string password = Request.Form["password"];
+
+        if (inputname == null || password == null || inputname == "" || password == "")
+        {
+            TempData["ErrorMessage"] = "帳號和密碼不能為空。";
+            return RedirectToAction("Register", "Login");
+        }
+        password = this.ComputeMD5Hash(password);
+        var user = new User
+        {
+            name = inputname,
+            password = password,
+        };
+        _db.User.Add(user);
+        _db.SaveChanges();
+
+
+
+        return RedirectToAction("succ", "Login");
+
+    }
+
+    public IActionResult succ()
+    {
+        return View();
+    }
+
+
+
+        [HttpPost]
     public IActionResult UserLoginVerify()
     {
 
