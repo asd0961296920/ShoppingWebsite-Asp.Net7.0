@@ -1,6 +1,9 @@
 ﻿@{
     ViewData["Title"] = "登入";
 }
+@{
+    Layout = "~/Views/Admin/_Layout.cshtml";
+}
 @using Models
 @using Request
 
@@ -17,24 +20,32 @@
                 </div>
             }
 
-            <form action="/Login/RegisterPost" method="post">
+            @if (TempData["password"] != null)
+            {
+                <div class="alert alert-danger" role="alert">
+                    @TempData["password"]
+                </div>
+            }
+            <h2>後台登入</h2>
+            <form action="/Admin/UserLoginVerify" method="post">
                 <div class="row mb-3">
-                    <label for="colFormLabel" class="col-sm-2 col-form-label">建立帳號：</label>
+                    <label for="colFormLabel" class="col-sm-2 col-form-label">後台帳號：</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="name" name="name" placeholder="請輸入帳號">
                     </div>
                 </div>
 
                 <div class="row mb-3">
-                    <label for="colFormLabel" class="col-sm-2 col-form-label">建立密碼：</label>
+                    <label for="colFormLabel" class="col-sm-2 col-form-label">後台密碼：</label>
                     <div class="col-sm-10">
                         <input type="password" class="form-control" id="password" name="password" placeholder="請輸入密碼">
                     </div>
                 </div>
                 <div class="d-grid gap-2 col-6 mx-auto">
-                    <button class="btn btn-outline-primary" type="submit">註冊</button>
-                    <a class="btn btn-outline-primary" type="button" href="@Url.Action("UserLogin", "Login")">登入</a>
+                    <button class="btn btn-outline-primary" type="submit">登入</button>
+                    <a class="btn btn-outline-primary" type="button" href="@Url.Action("Register", "Admin")">註冊</a>
                 </div>
+
             </form>
 
 

@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - 購物網站</title>
+    <title>@ViewData["Title"] - 購物網站後台</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ShoppingWebsite.styles.css" asp-append-version="true" />
@@ -17,7 +17,44 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-    @await Component.InvokeAsync("Header")
+
+
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="@Url.Action("Index", "Admin")">後台</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Index", "Admin")">訂單列表</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Product", "Admin")">商品列表</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Index", "Home")">回到前台</a>
+                        </li>
+
+                    </ul>
+                
+                </div>
+                <a class="navbar-brand" href="@Url.Action("OutLogin", "Admin")">登出</a>
+
+            </div>
+        </nav>
+
+    </header>
+
+
+
+
+
+
+
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -27,9 +64,7 @@
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2024 - Asp.Net Core 購物網站示範專案 - <a asp-area="" asp-controller="Home" asp-action="Privacy">隱私權</a>
-            <p>&copy; <a href="@Url.Action("Login", "Admin")">後台</a></p>
         </div>
-        
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

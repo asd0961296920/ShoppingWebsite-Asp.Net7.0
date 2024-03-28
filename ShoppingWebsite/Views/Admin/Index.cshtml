@@ -1,0 +1,43 @@
+﻿@{
+    Layout = "~/Views/Admin/_Layout.cshtml";
+}
+@using Models
+
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">訂單日期</th>
+                        <th scope="col">訂單編號</th>
+                        <th scope="col">訂購人手機</th>
+                        <th scope="col">訂購物品</th>
+                        <th scope="col">訂購金額</th>
+                        <th scope="col">送貨地址</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.Item)
+                    {
+                        <tr>
+                            <td>@item.CreatedAt</td>
+                            <td>@item.order_number</td>
+                            <td>@item.phone</td>
+                            <td>@item.product_name</td>
+                            <td>@item.price</td>
+                            <td>@item.adress</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+
+
+        </div>
+
+    </div>
+</div>
+

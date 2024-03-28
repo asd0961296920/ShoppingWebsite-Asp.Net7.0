@@ -19,6 +19,7 @@
     <None Remove="Server\" />
     <None Remove="Migrations\" />
     <None Remove="Views\Member\" />
+    <None Remove="Views\Admin\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Context\" />
@@ -31,6 +32,7 @@
     <Folder Include="Server\" />
     <Folder Include="Migrations\" />
     <Folder Include="Views\Member\" />
+    <Folder Include="Views\Admin\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.2" />
