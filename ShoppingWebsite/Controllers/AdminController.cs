@@ -2,10 +2,12 @@
 using System.Net.NetworkInformation;
 using Microsoft.AspNetCore.Mvc;
 namespace ShoppingWebsite.Controllers;
-
+using System.IO;
+using System.Threading.Tasks;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using Models;
 using TextContext;
 
@@ -89,10 +91,159 @@ public class AdminController : Controller
             return RedirectToAction("Login", "Admin");
         }
 
+        var orderList = _db.ProductClass.ToList();
+
+        ViewBag.Product = _db.Product.Where(u => u.manufacturer_id == int.Parse(cookieValue)).ToList();
+
+        var newArray = new List<object>();
+        foreach (var item in ViewBag.Product)
+        {
+            var product_class = orderList.FirstOrDefault(u => u.Id == item.product_class_id);
+
+            // 從每個資料庫物件中提取資料並重新組成新的物件
+            var newItem = new
+            {
+                name = item.name,
+                price = item.price,
+                product_class = product_class.class_name,
+                Id = item.Id,
+            };
+
+            // 將新的物件加入新的陣列中
+            newArray.Add(newItem);
+        }
+
+
+
+        ViewBag.Product = newArray;
+
+
         return View();
     }
 
+    public IActionResult AddProduct()
+    {
+
+        string cookieValue = Request.Cookies["AdminVerify"];
+        if (cookieValue == null)
+        {
+            TempData["ErrorMessage"] = "請先登入！";
+            return RedirectToAction("Login", "Admin");
+        }
+
+
+
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> PostProduct(IFormCollection form)
+    {
+
+        string cookieValue = Request.Cookies["AdminVerify"];
+        string name = form["name"];
+        string remarks = form["remarks"];
+        int price = int.Parse(form["price"]);
+        string product_class_name = form["product_class"];
+        string image = "data:image/jpeg;base64,";
+
+        int product_class_id = 1;
+        var product_class = _db.ProductClass.FirstOrDefault(u => u.class_name == product_class_name);
+        if (product_class == null)
+        {
+            var ProductClass = new ProductClass
+            {
+                class_name = product_class_name,
+            };
+
+            _db.ProductClass.Add(ProductClass);
+            _db.SaveChanges();
+            product_class_id = ProductClass.Id;
+        }
+        else
+        {
+            product_class_id = product_class.Id;
+        }
+
+
+
+        // 從表單中獲取圖片文件
+        var imageFile = form.Files["imager"];
+
+        if (imageFile != null && imageFile.Length > 0)
+        {
+            // 將圖片文件轉換為 base64 字符串
+            using (var memoryStream = new MemoryStream())
+            {
+                await imageFile.CopyToAsync(memoryStream);
+                var imageDataBytes = memoryStream.ToArray();
+                image += Convert.ToBase64String(imageDataBytes);
+
+                // 現在您可以將 base64 字符串保存到資料庫中，或者進行其他處理
+
+
+            }
+        }
+
+
+        var product = new Product
+        {
+            name = name,
+            price = price,
+            imager = image,
+            remarks = remarks,
+            product_class_id = product_class_id,
+            manufacturer_id = int.Parse(Request.Cookies["AdminVerify"])
+
+        };
+
+        _db.Product.Add(product);
+        _db.SaveChanges();
+
+
+
+
+
+
+        return RedirectToAction("succ", "Admin");
+    }
+
+
     
+
+    public IActionResult ProductDelete(int id)
+    {
+        string cookieValue = Request.Cookies["AdminVerify"];
+        if (cookieValue == null)
+        {
+            TempData["ErrorMessage"] = "請先登入！";
+            return RedirectToAction("Login", "Admin");
+        }
+
+
+        var product = _db.Product.Find(id);
+        int product_class_id = product.product_class_id;
+
+        _db.Product.Remove(product);
+        _db.SaveChanges();
+
+
+        var product_class = _db.Product.FirstOrDefault(u => u.product_class_id == product_class_id);
+
+        if(product_class == null)
+        {
+            var ProductClass = _db.ProductClass.Find(product_class_id);
+            _db.ProductClass.Remove(ProductClass);
+            _db.SaveChanges();
+
+        }
+
+
+
+        return RedirectToAction("Product", "Admin");
+
+    }
+        
 
     [HttpPost]
     public IActionResult RegisterPost()
@@ -193,6 +344,15 @@ public class AdminController : Controller
         Response.Cookies.Delete("AdminName");
 
         return RedirectToAction("Login", "Admin");
+    }
+
+
+    public IActionResult succ()
+    {
+
+
+        return View();
+
     }
 
 }

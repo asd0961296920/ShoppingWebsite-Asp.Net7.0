@@ -7,29 +7,30 @@
 <div class="container">
     <div class="row">
         <div class="col">
-
+            <a class="btn btn-outline-primary" href="/Admin/AddProduct" type="button">新增商品</a>
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">First</th>
-                        <th scope="col">Last</th>
-                        <th scope="col">Handle</th>
+                        <th scope="col">商品編號</th>
+                        <th scope="col">商品分類</th>
+                        <th scope="col">商品名稱</th>
+                        <th scope="col">商品單價</th>
+
                     </tr>
                 </thead>
                 <tbody>
-
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>mdo</td>
-                    </tr>
-
+                    @foreach (var item in ViewBag.Product)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.product_class</td>
+                            <td>@item.name</td>
+                            <td>@item.price</td>
+                            <td><a class="btn btn-outline-primary" href="/Admin/ProductDelete/@item.Id" type="button">刪除</a></td>
+                        </tr>
+                    }
                 </tbody>
             </table>
-
-
 
 
 

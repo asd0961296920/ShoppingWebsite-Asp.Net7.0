@@ -56,14 +56,6 @@ public class ShopingController : Controller
         ViewBag.Shop = newArray;
         ViewBag.all_number = all_number;
 
-        //ViewBag.Shop = _db.Shop
-        //    .Where(s => s.user_id == userId)
-        //    .Join(_db.Product,
-        //        shop => shop.product_id,
-        //        product => product.Id,
-        //        (shop, product) => new { Shop = shop, Product = product })
-        //    .ToList();
-        //ViewBag.Shop = shopData;
 
         return View();
 

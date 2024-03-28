@@ -5,12 +5,13 @@
 
 
 <div class="container">
-    <div class="row">
-        <div class="col">
+    <div class="row row-cols-4">
 
-            @foreach (var item in ViewBag.Product)
-            {
-                <div class="card" style="width: 18rem;">
+
+        @foreach (var item in ViewBag.Product)
+        {
+            <div class="col">
+                <div class="card mt-5" style="width: 18rem;">
                     <img src="@item.imager" class="card-img-top">
                     <div class="card-body">
                         <h5 class="card-title">@item.name</h5>
@@ -18,17 +19,15 @@
                         <a href="/Product/Index/@item.Id" class="btn btn-primary">查看產品</a>
                     </div>
                 </div>
-
-            }
-
-
+            </div>
+        }
 
 
 
 
 
-        </div>
+
+
 
     </div>
 </div>
-
