@@ -26,7 +26,11 @@
                             <td>@item.product_class</td>
                             <td>@item.name</td>
                             <td>@item.price</td>
-                            <td><a class="btn btn-outline-primary" href="/Admin/ProductDelete/@item.Id" type="button">刪除</a></td>
+                            <td>
+                                <a class="btn btn-outline-primary" href="/Admin/ProductDelete/@item.Id" type="button">刪除</a>
+                                <a class="btn btn-outline-primary" href="/Admin/UpdProduct/@item.Id" type="button">修改</a>
+
+                            </td>
                         </tr>
                     }
                 </tbody>

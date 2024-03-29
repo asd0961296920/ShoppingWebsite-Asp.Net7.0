@@ -136,6 +136,105 @@ public class AdminController : Controller
         return View();
     }
 
+    public IActionResult UpdProduct(int id)
+    {
+
+        string cookieValue = Request.Cookies["AdminVerify"];
+        if (cookieValue == null)
+        {
+            TempData["ErrorMessage"] = "請先登入！";
+            return RedirectToAction("Login", "Admin");
+        }
+
+
+        ViewBag.Product = _db.Product.Find(id);
+
+        ViewBag.classname = _db.ProductClass.Find(ViewBag.Product.product_class_id);
+
+        return View();
+    }
+
+
+
+
+    [HttpPost]
+    public async Task<IActionResult> UpdateProduct(IFormCollection form,int id)
+    {
+
+        string cookieValue = Request.Cookies["AdminVerify"];
+        string name = form["name"];
+        string remarks = form["remarks"];
+        int price = int.Parse(form["price"]);
+        string product_class_name = form["product_class"];
+        string image = "";
+
+        int product_class_id = 1;
+        var product_class = _db.ProductClass.FirstOrDefault(u => u.class_name == product_class_name);
+        if (product_class == null)
+        {
+            var ProductClass = new ProductClass
+            {
+                class_name = product_class_name,
+            };
+
+            _db.ProductClass.Add(ProductClass);
+            _db.SaveChanges();
+            product_class_id = ProductClass.Id;
+        }
+        else
+        {
+            product_class_id = product_class.Id;
+        }
+
+
+
+        // 從表單中獲取圖片文件
+        var imageFile = form.Files["imager"];
+
+        if (imageFile != null && imageFile.Length > 0)
+        {
+            // 將圖片文件轉換為 base64 字符串
+            using (var memoryStream = new MemoryStream())
+            {
+                image = "data:image/jpeg;base64,";
+                await imageFile.CopyToAsync(memoryStream);
+                var imageDataBytes = memoryStream.ToArray();
+                image += Convert.ToBase64String(imageDataBytes);
+
+                // 現在您可以將 base64 字符串保存到資料庫中，或者進行其他處理
+
+
+            }
+        }
+
+        var product = _db.Product.Find(id);
+
+        product.name = name;
+        product.price = price;
+        if(image != "")
+        {
+            product.imager = image;
+        }
+        
+
+        product.remarks = remarks;
+        product.product_class_id = product_class_id;
+
+        _db.SaveChanges();
+
+
+
+
+
+
+        return RedirectToAction("succ", "Admin");
+    }
+
+
+
+
+
+
     [HttpPost]
     public async Task<IActionResult> PostProduct(IFormCollection form)
     {

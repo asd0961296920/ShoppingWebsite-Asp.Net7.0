@@ -1,0 +1,58 @@
+﻿@{
+    Layout = "~/Views/Admin/_Layout.cshtml";
+}
+@using Models
+
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+
+
+            <form action="/Admin/UpdateProduct/@ViewBag.Product.Id" method="post" enctype="multipart/form-data">
+
+                <div class="row mb-3">
+                    <label for="colFormLabel" class="col-sm-2 col-form-label">商品名稱：</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="name" name="name" placeholder="請輸入名稱" value="@ViewBag.Product.name">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="colFormLabel" class="col-sm-2 col-form-label">商品價格：</label>
+                    <div class="col-sm-10">
+                        <input type="number" class="form-control" id="price" name="price" placeholder="請輸入價格" value="@ViewBag.Product.price">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="colFormLabel" class="col-sm-2 col-form-label">商品說明：</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="remarks" name="remarks" placeholder="請輸入說明" value="@ViewBag.Product.remarks">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="colFormLabel" class="col-sm-2 col-form-label">分類名稱：</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="product_class" name="product_class" placeholder="請輸入分類" value="@ViewBag.classname.class_name">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="colFormLabel" class="col-sm-2 col-form-label">圖片：</label>
+                    <div class="col-sm-10">
+                        <input type="file" class="form-control custom-file-input" id="imager" name="imager" accept="image/*">
+                    </div>
+                </div>
+
+                <img src="@ViewBag.Product.imager" class="img-fluid rounded" style="max-width: 500px; max-height: 500px;">
+
+
+
+                <button type="submit" id="buy" class="btn btn-outline-success">修改產品</button>
+            </form>
+
+
+
+        </div>
+
+    </div>
+</div>
+
