@@ -35,6 +35,8 @@
                         <input type="text" class="form-control" id="product_class" name="product_class" placeholder="請輸入分類" value="@ViewBag.classname.class_name">
                     </div>
                 </div>
+
+
                 <div class="row mb-3">
                     <label for="colFormLabel" class="col-sm-2 col-form-label">圖片：</label>
                     <div class="col-sm-10">
@@ -42,9 +44,9 @@
                     </div>
                 </div>
 
-                <img src="@ViewBag.Product.imager" class="img-fluid rounded" style="max-width: 500px; max-height: 500px;">
-
-
+                <div class="row mb-3">
+                    <img src="@ViewBag.Product.imager" class="img-fluid rounded" style="max-width: 500px; max-height: 500px;">
+                </div>
 
                 <button type="submit" id="buy" class="btn btn-outline-success">修改產品</button>
             </form>
