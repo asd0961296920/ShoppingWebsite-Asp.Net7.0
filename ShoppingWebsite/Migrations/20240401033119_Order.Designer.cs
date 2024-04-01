@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TextContext;
 
@@ -10,9 +11,11 @@ using TextContext;
 namespace ShoppingWebsite.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20240401033119_Order")]
+    partial class Order
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,7 +39,7 @@ namespace ShoppingWebsite.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("order_id")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.Property<int>("price")
                         .HasColumnType("int");
@@ -51,14 +54,6 @@ namespace ShoppingWebsite.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("manufacturer_id");
-
-                    b.HasIndex("order_id");
-
-                    b.HasIndex("product_id");
-
-                    b.HasIndex("user_id");
 
                     b.ToTable("Item");
                 });
@@ -98,8 +93,7 @@ namespace ShoppingWebsite.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("order_number")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.Property<bool>("payment")
                         .HasColumnType("tinyint(1)");
@@ -114,6 +108,10 @@ namespace ShoppingWebsite.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("manufacturer_id");
+
+                    b.HasIndex("user_id");
 
                     b.ToTable("Order");
                 });
@@ -213,36 +211,21 @@ namespace ShoppingWebsite.Migrations
                     b.ToTable("User");
                 });
 
-            modelBuilder.Entity("Models.Item", b =>
+            modelBuilder.Entity("Models.Order", b =>
                 {
                     b.HasOne("Models.Manufacturer", "Manufacturer")
-                        .WithMany("Item")
+                        .WithMany("Order")
                         .HasForeignKey("manufacturer_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Models.Order", "Order")
-                        .WithMany("Item")
-                        .HasForeignKey("order_id")
-                        .HasPrincipalKey("order_number");
-
-                    b.HasOne("Models.Product", "Product")
-                        .WithMany("Item")
-                        .HasForeignKey("product_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Models.User", "User")
-                        .WithMany("Item")
+                        .WithMany("Order")
                         .HasForeignKey("user_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Manufacturer");
-
-                    b.Navigation("Order");
-
-                    b.Navigation("Product");
 
                     b.Navigation("User");
                 });
@@ -268,19 +251,9 @@ namespace ShoppingWebsite.Migrations
 
             modelBuilder.Entity("Models.Manufacturer", b =>
                 {
-                    b.Navigation("Item");
+                    b.Navigation("Order");
 
                     b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("Models.Order", b =>
-                {
-                    b.Navigation("Item");
-                });
-
-            modelBuilder.Entity("Models.Product", b =>
-                {
-                    b.Navigation("Item");
                 });
 
             modelBuilder.Entity("Models.ProductClass", b =>
@@ -290,7 +263,7 @@ namespace ShoppingWebsite.Migrations
 
             modelBuilder.Entity("Models.User", b =>
                 {
-                    b.Navigation("Item");
+                    b.Navigation("Order");
                 });
 #pragma warning restore 612, 618
         }

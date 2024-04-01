@@ -7,7 +7,7 @@ namespace Models
 
         public string? class_name { get; set; }
 
-
+        public ICollection<Product> Product { get; set; }
     }
 }
 

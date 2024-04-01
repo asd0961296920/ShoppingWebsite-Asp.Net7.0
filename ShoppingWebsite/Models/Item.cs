@@ -22,7 +22,10 @@ namespace Models
 
         public int manufacturer_id { get; set; }
 
-
+        public Manufacturer? Manufacturer { get; set; }
+        public User? User { get; set; }
+        public Order? Order { get; set; }
+        public Product? Product { get; set; }
     }
 }
 

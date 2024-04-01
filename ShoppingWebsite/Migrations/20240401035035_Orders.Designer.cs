@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TextContext;
 
@@ -10,9 +11,11 @@ using TextContext;
 namespace ShoppingWebsite.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20240401035035_Orders")]
+    partial class Orders
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,8 +58,6 @@ namespace ShoppingWebsite.Migrations
                     b.HasIndex("manufacturer_id");
 
                     b.HasIndex("order_id");
-
-                    b.HasIndex("product_id");
 
                     b.HasIndex("user_id");
 
@@ -226,12 +227,6 @@ namespace ShoppingWebsite.Migrations
                         .HasForeignKey("order_id")
                         .HasPrincipalKey("order_number");
 
-                    b.HasOne("Models.Product", "Product")
-                        .WithMany("Item")
-                        .HasForeignKey("product_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Models.User", "User")
                         .WithMany("Item")
                         .HasForeignKey("user_id")
@@ -241,8 +236,6 @@ namespace ShoppingWebsite.Migrations
                     b.Navigation("Manufacturer");
 
                     b.Navigation("Order");
-
-                    b.Navigation("Product");
 
                     b.Navigation("User");
                 });
@@ -274,11 +267,6 @@ namespace ShoppingWebsite.Migrations
                 });
 
             modelBuilder.Entity("Models.Order", b =>
-                {
-                    b.Navigation("Item");
-                });
-
-            modelBuilder.Entity("Models.Product", b =>
                 {
                     b.Navigation("Item");
                 });

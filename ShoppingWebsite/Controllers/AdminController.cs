@@ -54,28 +54,13 @@ public class AdminController : Controller
             TempData["ErrorMessage"] = "請先登入！";
             return RedirectToAction("Login", "Admin");
         }
-        var orderList = _db.Order.ToList();
-        ViewBag.Order = _db.Item.Where(u => u.manufacturer_id == int.Parse(cookieValue)).ToList();
 
-        var newArray = new List<object>();
-        foreach (var item in ViewBag.Order)
-        {
-            var order = orderList.FirstOrDefault(u => u.order_number == item.order_id);
-
-            // 從每個資料庫物件中提取資料並重新組成新的物件
-            var newItem = new {
-                CreatedAt = item.CreatedAt,
-                order_number = item.order_id,
-                product_name = item.product_name,
-                price = item.price,
-                adress = order.adress,
-                phone = order.phone
-            };
-
-            // 將新的物件加入新的陣列中
-            newArray.Add(newItem);
-        }
-        ViewBag.Item = newArray;
+        ViewBag.Item = _db.Item
+                        .Include(p => p.User)
+                        .Include(p => p.Manufacturer)
+                        .Include(p => p.Order)
+                         .Include(p => p.Product)
+            .Where(u => u.manufacturer_id == int.Parse(cookieValue)).ToList();
 
 
         return View();
@@ -93,29 +78,11 @@ public class AdminController : Controller
 
         var orderList = _db.ProductClass.ToList();
 
-        ViewBag.Product = _db.Product.Where(u => u.manufacturer_id == int.Parse(cookieValue)).ToList();
-
-        var newArray = new List<object>();
-        foreach (var item in ViewBag.Product)
-        {
-            var product_class = orderList.FirstOrDefault(u => u.Id == item.product_class_id);
-
-            // 從每個資料庫物件中提取資料並重新組成新的物件
-            var newItem = new
-            {
-                name = item.name,
-                price = item.price,
-                product_class = product_class.class_name,
-                Id = item.Id,
-            };
-
-            // 將新的物件加入新的陣列中
-            newArray.Add(newItem);
-        }
-
-
-
-        ViewBag.Product = newArray;
+        ViewBag.Product = _db.Product
+            .Include(p => p.ProductClass)
+            .Include(p => p.Manufacturer)
+            .Where(p => p.manufacturer_id == int.Parse(cookieValue))
+            .ToList();
 
 
         return View();

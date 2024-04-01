@@ -23,6 +23,11 @@ namespace Models
         public int manufacturer_id { get; set; }
 
         public bool payment { get; set; }
+
+        public ICollection<Item> Item { get; set; }
+
+
+
     }
 }
 

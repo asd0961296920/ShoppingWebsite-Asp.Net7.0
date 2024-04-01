@@ -1,4 +1,6 @@
 ﻿using System;
+using TextContext;
+using Microsoft.EntityFrameworkCore;
 namespace Models
 {
     public partial class Product
@@ -19,6 +21,11 @@ namespace Models
 
         public int product_class_id { get; set; }
 
+
+
+        public Manufacturer? Manufacturer { get; set; }
+        public ProductClass? ProductClass { get; set; }
+        public ICollection<Item> Item { get; set; }
     }
 }
 

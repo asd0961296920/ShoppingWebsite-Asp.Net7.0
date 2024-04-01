@@ -9,6 +9,8 @@ namespace Models
 
         public string password { get; set; }
 
+        public ICollection<Item> Item { get; set; }
+
     }
 }
 
